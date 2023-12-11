@@ -18,12 +18,12 @@ const Login = () => {
 	};
 
 	return (
-		<form className="formularioLogin">
-			<FormControl className="controles">
+		<form className='formularioLogin'>
+			<FormControl className='controles'>
 				<InputLabel htmlFor='nombre'>Nombre</InputLabel>
 				<Input onChange={cambioImput} name='nombre' aria-describedby='my-helper-text' required type='text' />
 			</FormControl>
-			<FormControl className="controles">
+			<FormControl className='controles'>
 				<InputLabel htmlFor='password'>Password</InputLabel>
 				<Input onChange={cambioImput} name='password' aria-describedby='my-helper-text' required type='password' />
 			</FormControl>

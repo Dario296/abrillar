@@ -37,7 +37,6 @@ const OrderForm = () => {
 		e.preventDefault();
 
 		const orden = {
-			// fecha: new Date().toLocaleDateString(),
 			Comprador: datos,
 			Items: carrito,
 			Total: total(),
@@ -51,7 +50,7 @@ const OrderForm = () => {
 	};
 
 	return (
-		<form className="formularioPedido">
+		<form className='formularioPedido'>
 			<Grid container spacing={3}>
 				<Grid item xs={12} sm={6}>
 					<FormControl>

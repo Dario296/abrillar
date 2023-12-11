@@ -14,11 +14,10 @@ const ProductsListContainer = () => {
 	useEffect(() => {
 		const ProductosRef = collection(db, 'ListadoProductos');
 		const Respuesta = query(ProductosRef, where('categoria', '==', categoria));
-		getDocs(Respuesta)
-			.then((resp) => {
-				const ProductosDB = resp.docs.map((doc) => ({ Id: doc.id, ...doc.data() }));
-				setProductList(ProductosDB);
-			});
+		getDocs(Respuesta).then((resp) => {
+			const ProductosDB = resp.docs.map((doc) => ({ Id: doc.id, ...doc.data() }));
+			setProductList(ProductosDB);
+		});
 	}, [categoria]);
 
 	return (

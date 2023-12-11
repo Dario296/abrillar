@@ -10,7 +10,7 @@ export default function RecipeReviewCard({ producto }) {
 	const { agregarCarrito, estaEnCarrito } = useContexto();
 
 	const handleSumar = () => {
-		if (cantidad < producto.stock ) {
+		if (cantidad < producto.stock) {
 			setCantidad(cantidad + 1);
 		}
 	};
@@ -33,29 +33,31 @@ export default function RecipeReviewCard({ producto }) {
 	return (
 		<Card className='Card' sx={{ maxWidth: 345, minWidth: 280 }}>
 			<CardHeader title={producto.nombre} action={Math.round((producto.costo + (producto.costo * producto.porcentaje) / 100) / 10) * 10} />
-			<CardMedia component='img' height='194' image={producto.img} alt="Imagen del producto" />
+			<CardMedia component='img' height='194' image={producto.img} alt='Imagen del producto' />
 			<CardContent>
-				<Typography className='Descripcion'>Stock: {producto.stock}</Typography>
+				{producto.stock > 0 ? <Typography className='Descripcion'>Stock: {producto.stock}</Typography> : null}
 				<Typography className='Descripcion'>{producto.decripcion1}</Typography>
-				{producto.decripcion2 ?<Typography className='Descripcion'>({producto.decripcion2})</Typography> : null}
+				{producto.decripcion2 ? <Typography className='Descripcion'>({producto.decripcion2})</Typography> : null}
 			</CardContent>
 			{estaEnCarrito(producto.id) ? null : (
 				<CardActions disableSpacing>
-					{producto.stock > 0 ?
-					<>
-					<IconButton className='Restar' onClick={handleRestar}>
-						<RemoveIcon />
-					</IconButton>
-					<Typography className='Cantidad'>{cantidad}</Typography>
-					<IconButton className='Sumar' onClick={handleSumar}>
-						<AddIcon />
-					</IconButton>
-					<IconButton onClick={handleAgregar} className='Añadir'>
-						<Typography>Añadir</Typography>
-						<AddShoppingCartIcon />
-					</IconButton>
-					</>
-					: <Typography>No hay stock de este producto</Typography>}
+					{producto.stock > 0 ? (
+						<>
+							<IconButton className='Restar' onClick={handleRestar}>
+								<RemoveIcon />
+							</IconButton>
+							<Typography className='Cantidad'>{cantidad}</Typography>
+							<IconButton className='Sumar' onClick={handleSumar}>
+								<AddIcon />
+							</IconButton>
+							<IconButton onClick={handleAgregar} className='Añadir'>
+								<Typography>Añadir</Typography>
+								<AddShoppingCartIcon />
+							</IconButton>
+						</>
+					) : (
+						<Typography>No hay stock de este producto</Typography>
+					)}
 				</CardActions>
 			)}
 		</Card>

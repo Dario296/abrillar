@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const Shoping = ({ producto, handleAgregar, venta }) => {
-	const [cantidad, setCantidad] = useState();
-	const [precioT, setPrecioT] = useState();
+const Shoping = ({ producto, handleAgregar, cantidad, setCantidad, precioT, setPrecioT }) => {
 	const precioU = Math.round((producto.costo + (producto.costo * producto.porcentaje) / 100) / 10) * 10;
 
 	const handleChangeCantidad = (e) => {
@@ -19,7 +17,7 @@ const Shoping = ({ producto, handleAgregar, venta }) => {
 	};
 
 	const productoV = {
-		id: producto.id,
+		Id: producto.Id,
 		nombre: producto.nombre,
 		cantidad: cantidad,
 		precioTotal: precioT,
@@ -36,7 +34,15 @@ const Shoping = ({ producto, handleAgregar, venta }) => {
 			<td>
 				<input onChange={handleChangePrecio} type='number' name='precio' value={precioT} />
 			</td>
-			{producto.stock > 0 ? <>{venta.some((item) => item.id === producto.id) ? <></> : <td>{cantidad === undefined || cantidad === 0 || precioT === 0 || precioT === undefined ? null : <button onClick={() => handleAgregar({ ...productoV })}>Agregar a la venta</button>}</td>}</> : null}
+			{producto.stock > 0 ? (
+				<>
+					{ cantidad === 0 ? null : (
+						<td>
+							<button onClick={() => handleAgregar({ ...productoV }, producto.Id)}>Agregar a la venta</button>
+						</td>
+					)}
+				</>
+			) : null}
 		</tr>
 	);
 };
