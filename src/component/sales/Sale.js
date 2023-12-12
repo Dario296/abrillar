@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-const Shoping = ({ producto, handleAgregar, cantidad, setCantidad, precioT, setPrecioT }) => {
-	const precioU = Math.round((producto.costo + (producto.costo * producto.porcentaje) / 100) / 10) * 10;
+const Sale = ({ producto, handleAgregar, recargar }) => {
+
+	const [cantidad, setCantidad] = useState(0);
+	const [precioT, setPrecioT] = useState(0);
+
+	useEffect(()=>{
+		setCantidad(0)
+		setPrecioT(0)
+	},[recargar])
+
+	const C = Number(producto.costo)
+	const P = Number(producto.porcentaje)
+	const precioU = Math.round( ( C + ( C * P ) / 100 ) /10 ) * 10;
 
 	const handleChangeCantidad = (e) => {
 		const value = e.target.value;
@@ -47,4 +58,4 @@ const Shoping = ({ producto, handleAgregar, cantidad, setCantidad, precioT, setP
 	);
 };
 
-export default Shoping;
+export default Sale;

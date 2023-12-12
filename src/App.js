@@ -10,9 +10,11 @@ import Cart from './component/cart/cart.js';
 import { useContextAdmin } from './component/context/AdminContex.js';
 import { useContexto } from './component/context/CartContex.js';
 import Login from './component/login/Login.js';
-import ShopingList from './component/shoping/ShopingList.js';
+import SalesList from './component/sales/SalesList.js';
 import WhatsappButton from './component/whatsapp/WhatsappButton.js';
 import OrderForm from './component/orderForm/OrderForm.js';
+import TotalForTheDayList from './component/totalForTheDay/TotalForTheDayList.js'
+import EditProductsList from "./component/editProducts/EditProductsList.js";
 
 function App() {
 	const { admin } = useContextAdmin();
@@ -20,12 +22,13 @@ function App() {
 	return (
 		<div className='App'>
 			<BrowserRouter>
-				{/* <HashRouter> */}
 				{admin ? (
 					<>
 						<NavBarAdmi />
 						<Routes>
-							<Route path='/' element={<ShopingList />}></Route>
+							<Route path='/' element={<SalesList />}></Route>
+							<Route path='/ventasdeldia' element={<TotalForTheDayList />}></Route>
+							<Route path='/editarproductos' element={<EditProductsList />}></Route>
 							<Route path='*' element={<Navigate to='/' />} />
 						</Routes>
 					</>
@@ -49,7 +52,6 @@ function App() {
 						<WhatsappButton />
 					</>
 				)}
-				{/* </HashRouter> */}
 			</BrowserRouter>
 		</div>
 	);

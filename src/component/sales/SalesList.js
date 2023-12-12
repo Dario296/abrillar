@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import Shoping from './Shoping';
-import { getFirestore, collection, getDocs, query, getDoc, updateDoc, doc, addDoc } from 'firebase/firestore';
+import Sale from './Sale';
+import { getFirestore, collection, getDocs, query, addDoc, writeBatch, where, documentId } from 'firebase/firestore';
 import app from '../config/firebase';
 
 const db = getFirestore(app);
 
-const ShopingList = () => {
+const SalesList = () => {
 	const [venta, setVenta] = useState([]);
 	const [pruductList, setProductList] = useState([]);
-	const [cantidad, setCantidad] = useState(0);
-	const [precioT, setPrecioT] = useState(0);
 	const [recargar, setRecargar] = useState(true);
-	
 
 	useEffect(() => {
 		const ProductosRef = collection(db, 'ListadoProductos');
@@ -36,26 +33,51 @@ const ShopingList = () => {
 		fecha: new Date().toLocaleDateString(),
 		items: venta,
 		total: total(),
-	}
+	};
 
-	const confirmarVenta = () => {
-		venta.forEach((item) =>{
-			const ProductosRef = doc(db, 'ListadoProductos', item.Id);
-			getDoc(ProductosRef)
-				.then((doc) => {
-					updateDoc(ProductosRef, {
-						stock: doc.data().stock - item.cantidad
-					})
-				})
-		})
+	const confirmarVenta = async () => {
+		const batch = writeBatch(db);
+		const ProductosRef = collection(db, 'ListadoProductos');
 		const ventaRef = collection(db, 'Ventas');
-		addDoc(ventaRef, compra)
-			.then(() => {
-				setVenta([]);
-				setCantidad(0);
-				setPrecioT(0);
-				setRecargar(!recargar)
-			})
+
+		const q = query(
+			ProductosRef,
+			where(
+				documentId(),
+				'in',
+				venta.map((item) => item.Id)
+			)
+		);
+
+		const noHayStock = [];
+
+		const productos = await getDocs(q);
+		productos.docs.forEach((doc) => {
+			const itemInCart = venta.find((item) => item.Id === doc.id);
+			if (doc.data().stock >= itemInCart.cantidad) {
+				batch.update(doc.ref, {
+					stock: doc.data().stock - itemInCart.cantidad,
+				});
+			} else {
+				noHayStock.push({
+					nombre: doc.data().nombre,
+					});
+
+				// noHayStock.push(itemInCart);
+			}
+		});
+
+		if (noHayStock.length === 0) {
+			batch.commit().then(() => {
+				addDoc(ventaRef, compra).then(() => {
+					setVenta([]);
+					setRecargar(!recargar);
+				});
+			});
+		} else {
+			setVenta([]);
+			alert('No hay stock suficiente para los siguientes productos: ' + noHayStock.map((i) => i.nombre));
+		}
 	};
 
 	return (
@@ -71,11 +93,11 @@ const ShopingList = () => {
 					<th>PrecioT.</th>
 				</tr>
 				{pruductList.map((producto) => (
-					<Shoping key={producto.id} producto={producto} handleAgregar={handleAgregar} venta={venta} cantidad={cantidad} setCantidad={setCantidad} precioT={precioT} setPrecioT={setPrecioT} />
+					<Sale key={producto.id} producto={producto} handleAgregar={handleAgregar} venta={venta} recargar={recargar} />
 				))}
 			</table>
 		</>
 	);
 };
 
-export default ShopingList;
+export default SalesList;
