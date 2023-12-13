@@ -31,6 +31,7 @@ export default function RecipeReviewCard({ producto }) {
 			nombre: producto.nombre,
 			precio,
 			cantidad: cantidad,
+			stock: producto.stock,
 		};
 		agregarCarrito(productoAgregar);
 	};
