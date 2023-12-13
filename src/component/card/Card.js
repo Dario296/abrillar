@@ -42,8 +42,8 @@ export default function RecipeReviewCard({ producto }) {
 			<CardMedia component='img' height='194' image={producto.img} alt='Imagen del producto' />
 			<CardContent>
 				{producto.stock > 0 ? <Typography className='Descripcion'>Stock: {producto.stock}</Typography> : null}
-				<Typography className='Descripcion'>{producto.decripcion1}</Typography>
-				{producto.decripcion2 ? <Typography className='Descripcion'>({producto.decripcion2})</Typography> : null}
+				<Typography className='Descripcion'>{producto.descripcion1}</Typography>
+				{producto.descripcion2 ? <Typography className='Descripcion'>({producto.descripcion2})</Typography> : null}
 			</CardContent>
 			{estaEnCarrito(producto.ID) ? null : (
 				<CardActions disableSpacing>
