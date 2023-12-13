@@ -11,16 +11,16 @@ export const Provider = ({ children }) => {
 		}
 	};
 
-	const estaEnCarrito = (id) => {
-		return carrito.some((item) => item.id === id);
+	const estaEnCarrito = (ID) => {
+		return carrito.some((item) => item.ID === ID);
 	};
 
 	const cantidad = () => {
 		return carrito.reduce((acc, producto) => acc + producto.cantidad, 0);
 	};
 
-	const sumarCantidad = (id) => {
-		let index = carrito.findIndex((item) => item.id === id);
+	const sumarCantidad = (ID) => {
+		let index = carrito.findIndex((item) => item.ID === ID);
 
 		if (carrito[index].stock > carrito[index].cantidad) {
 			carrito[index].cantidad += 1;
@@ -28,18 +28,18 @@ export const Provider = ({ children }) => {
 		}
 	};
 
-	const restarCantidad = (id) => {
-		let index = carrito.findIndex((item) => item.id === id);
+	const restarCantidad = (ID) => {
+		let index = carrito.findIndex((item) => item.ID === ID);
 		if (carrito[index].cantidad > 1) {
 			carrito[index].cantidad -= 1;
 			setCarrito([...carrito]);
 		} else {
-			eliminarProducto(id);
+			eliminarProducto(ID);
 		}
 	};
 
-	const eliminarProducto = (id) => {
-		setCarrito(carrito.filter((item) => item.id !== id));
+	const eliminarProducto = (ID) => {
+		setCarrito(carrito.filter((item) => item.ID !== ID));
 	};
 
 	const total = () => {
@@ -50,12 +50,7 @@ export const Provider = ({ children }) => {
 		setCarrito([]);
 	};
 
-	const terminarCompra = (id) => {
-		alert(`Gracias por su compra nimero de orden: ${id}`);
-		setCarrito([]);
-	};
-
-	return <Context.Provider value={{ carrito, agregarCarrito, estaEnCarrito, cantidad, eliminarProducto, total, vaciarCarrito, terminarCompra, sumarCantidad, restarCantidad, setCarrito }}>{children}</Context.Provider>;
+	return <Context.Provider value={{ carrito, agregarCarrito, estaEnCarrito, cantidad, eliminarProducto, total, vaciarCarrito, sumarCantidad, restarCantidad, setCarrito }}>{children}</Context.Provider>;
 };
 
 export const useContexto = () => {

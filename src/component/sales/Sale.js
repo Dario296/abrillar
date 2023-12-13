@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import { Button } from 'react-bootstrap';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 const Sale = ({ producto, handleAgregar, recargar }) => {
+	const [cantidad, setCantidad] = useState('');
+	const [precioT, setPrecioT] = useState('');
 
-	const [cantidad, setCantidad] = useState(0);
-	const [precioT, setPrecioT] = useState(0);
+	useEffect(() => {
+		setCantidad('');
+		setPrecioT('');
+	}, [recargar]);
 
-	useEffect(()=>{
-		setCantidad(0)
-		setPrecioT(0)
-	},[recargar])
-
-	const C = Number(producto.costo)
-	const P = Number(producto.porcentaje)
-	const precioU = Math.round( ( C + ( C * P ) / 100 ) /10 ) * 10;
+	const C = Number(producto.costo);
+	const P = Number(producto.porcentaje);
+	const precioU = Math.round((C + (C * P) / 100) / 10) * 10;
 
 	const handleChangeCantidad = (e) => {
 		const value = e.target.value;
@@ -28,7 +29,7 @@ const Sale = ({ producto, handleAgregar, recargar }) => {
 	};
 
 	const productoV = {
-		Id: producto.Id,
+		ID: producto.ID,
 		nombre: producto.nombre,
 		cantidad: cantidad,
 		precioTotal: precioT,
@@ -40,20 +41,20 @@ const Sale = ({ producto, handleAgregar, recargar }) => {
 			<td>{producto.stock}</td>
 			<td>{precioU}</td>
 			<td>
-				<input onChange={handleChangeCantidad} type='number' name='cantidad' value={cantidad} />
+				<input className='inputVentas' onChange={handleChangeCantidad} type='number' name='cantidad' value={cantidad} />
 			</td>
 			<td>
-				<input onChange={handleChangePrecio} type='number' name='precio' value={precioT} />
+				<input className='inputVentas' onChange={handleChangePrecio} type='number' name='precio' value={precioT} />
 			</td>
-			{producto.stock > 0 ? (
-				<>
-					{ cantidad === 0 ? null : (
-						<td>
-							<button onClick={() => handleAgregar({ ...productoV }, producto.Id)}>Agregar a la venta</button>
-						</td>
-					)}
-				</>
-			) : null}
+			{producto.stock === 0 || cantidad === 0 || cantidad === undefined || cantidad === null || cantidad === '' ? (
+				<Button className='agregarVentasD' disabled>
+					<AddShoppingCartIcon />
+				</Button>
+			) : (
+				<Button className='agregarVentas' onClick={() => handleAgregar({ ...productoV }, producto.ID)}>
+					<AddShoppingCartIcon />
+				</Button>
+			)}
 		</tr>
 	);
 };

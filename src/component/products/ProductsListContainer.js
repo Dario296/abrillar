@@ -15,7 +15,7 @@ const ProductsListContainer = () => {
 		const ProductosRef = collection(db, 'ListadoProductos');
 		const Respuesta = query(ProductosRef, where('categoria', '==', categoria));
 		getDocs(Respuesta).then((resp) => {
-			const ProductosDB = resp.docs.map((doc) => ({ Id: doc.id, ...doc.data() }));
+			const ProductosDB = resp.docs.map((doc) => ({ ID: doc.id, ...doc.data() }));
 			setProductList(ProductosDB);
 		});
 	}, [categoria]);
@@ -23,7 +23,7 @@ const ProductsListContainer = () => {
 	return (
 		<Grid container spacing={4} columns={{ xs: 4, sm: 8, md: 12 }} direction='row' justifyContent='space-around' alignItems='center'>
 			{pruductList.map((producto) => (
-				<Grid item key={producto.id}>
+				<Grid item key={producto.ID}>
 					<RecipeReviewCard producto={producto} />
 				</Grid>
 			))}

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Sale from './Sale';
 import { getFirestore, collection, getDocs, query, addDoc, writeBatch, where, documentId } from 'firebase/firestore';
 import app from '../config/firebase';
+import Table from 'react-bootstrap/Table';
+import { Button } from 'react-bootstrap';
 
 const db = getFirestore(app);
 
@@ -14,13 +16,13 @@ const SalesList = () => {
 		const ProductosRef = collection(db, 'ListadoProductos');
 		const Respuesta = query(ProductosRef);
 		getDocs(Respuesta).then((resp) => {
-			const ProductosDB = resp.docs.map((doc) => ({ Id: doc.id, ...doc.data() }));
+			const ProductosDB = resp.docs.map((doc) => ({ ID: doc.id, ...doc.data() }));
 			setProductList(ProductosDB);
 		});
 	}, [recargar]);
 
-	const handleAgregar = (producto, id) => {
-		if (venta.some((item) => item.Id === id) === false) {
+	const handleAgregar = (producto, ID) => {
+		if (venta.some((item) => item.ID === ID) === false) {
 			setVenta([...venta, producto]);
 		}
 	};
@@ -45,7 +47,7 @@ const SalesList = () => {
 			where(
 				documentId(),
 				'in',
-				venta.map((item) => item.Id)
+				venta.map((item) => item.ID)
 			)
 		);
 
@@ -53,7 +55,8 @@ const SalesList = () => {
 
 		const productos = await getDocs(q);
 		productos.docs.forEach((doc) => {
-			const itemInCart = venta.find((item) => item.Id === doc.id);
+			const itemInCart = venta.find((item) => item.ID === doc.id);
+			console.log(itemInCart.cantidad);
 			if (doc.data().stock >= itemInCart.cantidad) {
 				batch.update(doc.ref, {
 					stock: doc.data().stock - itemInCart.cantidad,
@@ -61,7 +64,7 @@ const SalesList = () => {
 			} else {
 				noHayStock.push({
 					nombre: doc.data().nombre,
-					});
+				});
 
 				// noHayStock.push(itemInCart);
 			}
@@ -82,20 +85,31 @@ const SalesList = () => {
 
 	return (
 		<>
-			<div>Total venta:{total()}</div>
-			{venta.length === 0 ? null : <button onClick={confirmarVenta}>Confirmar venta</button>}
-			<table className='tablaVentas'>
-				<tr>
-					<th>Nombre</th>
-					<th>Stock</th>
-					<th>PrecioUni</th>
-					<th>Cantidad</th>
-					<th>PrecioT.</th>
-				</tr>
-				{pruductList.map((producto) => (
-					<Sale key={producto.id} producto={producto} handleAgregar={handleAgregar} venta={venta} recargar={recargar} />
-				))}
-			</table>
+			<div>
+				<span>Total venta:{total()}</span>
+				{venta.length === 0 ? null : (
+					<Button className='confirmarVenta' onClick={confirmarVenta}>
+						Confirmar venta
+					</Button>
+				)}
+			</div>
+
+			<Table striped bordered hover size='sm' responsive>
+				<thead>
+					<tr>
+						<th>Nombre</th>
+						<th>Stock</th>
+						<th>$ C/U</th>
+						<th>Cant.</th>
+						<th>Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					{pruductList.map((producto) => (
+						<Sale key={producto.ID} producto={producto} handleAgregar={handleAgregar} venta={venta} recargar={recargar} />
+					))}
+				</tbody>
+			</Table>
 		</>
 	);
 };

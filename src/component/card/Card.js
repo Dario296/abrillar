@@ -9,9 +9,9 @@ export default function RecipeReviewCard({ producto }) {
 	const [cantidad, setCantidad] = React.useState(0);
 	const { agregarCarrito, estaEnCarrito } = useContexto();
 
-	const C = producto.costo
-	const P = producto.porcentaje
-	const precio = Math.round( ( C + ( C * P ) / 100 ) /10 ) * 10;
+	const C = producto.costo;
+	const P = producto.porcentaje;
+	const precio = Math.round((C + (C * P) / 100) / 10) * 10;
 
 	const handleSumar = () => {
 		if (cantidad < producto.stock) {
@@ -27,6 +27,7 @@ export default function RecipeReviewCard({ producto }) {
 
 	const handleAgregar = () => {
 		let productoAgregar = {
+			ID: producto.ID,
 			nombre: producto.nombre,
 			precio,
 			cantidad: cantidad,
@@ -43,7 +44,7 @@ export default function RecipeReviewCard({ producto }) {
 				<Typography className='Descripcion'>{producto.decripcion1}</Typography>
 				{producto.decripcion2 ? <Typography className='Descripcion'>({producto.decripcion2})</Typography> : null}
 			</CardContent>
-			{estaEnCarrito(producto.id) ? null : (
+			{estaEnCarrito(producto.ID) ? null : (
 				<CardActions disableSpacing>
 					{producto.stock > 0 ? (
 						<>

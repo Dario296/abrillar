@@ -4,55 +4,62 @@ import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { Link } from 'react-router-dom';
+import Table from 'react-bootstrap/Table';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const Cart = () => {
 	const { carrito, cantidad, sumarCantidad, restarCantidad, eliminarProducto, total, vaciarCarrito } = useContexto();
 
 	return (
 		<>
-			<div className='Cart'>
-				<table className='TablaCarrito'>
-					<tr>
-						<th className='columna'>Id</th>
-						<th className='columna'>Nombre</th>
-						<th className='columna'>Cantidad</th>
-						<th className='columna'>PrecioU.</th>
-						<th className='columna'>PrecioT.</th>
-					</tr>
-					{carrito.map((producto) => (
-						<tr key={producto.id}>
-							<td className='columna'>{producto.id}</td>
-							<td className='columna'>{producto.nombre}</td>
-							<td className='columnaN'>{producto.cantidad}</td>
-							<td className='columnaN'>{producto.precio}</td>
-							<td className='columnaN'>{producto.precio * producto.cantidad}</td>
-							<td className='columna'>
-								<IconButton onClick={() => restarCantidad(producto.id)}>
-									<RemoveIcon />
-								</IconButton>
-							</td>
-							<td className='columna'>
-								<IconButton onClick={() => sumarCantidad(producto.id)}>
-									<AddIcon />
-								</IconButton>
-							</td>
-							<td className='columna'>
-								<IconButton onClick={() => eliminarProducto(producto.id)}>Eliminar</IconButton>
-							</td>
+			<div>
+				<Table striped bordered hover size='sm' responsive>
+					<thead>
+						<tr>
+							<th>Nombre</th>
+							<th>Cant.</th>
+							<th>$ C/U</th>
+							<th>Total</th>
 						</tr>
-					))}
-					<tr>
-						<td></td>
-						<td></td>
-						<td className='columnaNT'>Cantidad: {cantidad()}</td>
-						<td></td>
-						<td className='columnaNT'>Total: {total()}</td>
-					</tr>
-				</table>
-				<IconButton onClick={() => vaciarCarrito()}>Vaciar carrito</IconButton>
-				<IconButton as={Link} to='/realizarpedido'>
-					Terminar pedido
-				</IconButton>
+					</thead>
+					<tbody>
+						{carrito.map((producto) => (
+							<tr key={producto.ID}>
+								<td>{producto.nombre}</td>
+								<td>{producto.cantidad}</td>
+								<td>{producto.precio}</td>
+								<td>{producto.precio * producto.cantidad}</td>
+								<td>
+									<IconButton onClick={() => restarCantidad(producto.ID)}>
+										<RemoveIcon />
+									</IconButton>
+								</td>
+								<td>
+									<IconButton onClick={() => sumarCantidad(producto.ID)}>
+										<AddIcon />
+									</IconButton>
+								</td>
+								<td>
+									<IconButton onClick={() => eliminarProducto(producto.ID)}>
+										<DeleteIcon />
+									</IconButton>
+								</td>
+							</tr>
+						))}
+						<tr>
+							<td></td>
+							<td>{cantidad()}</td>
+							<td></td>
+							<td>{total()}</td>
+						</tr>
+					</tbody>
+				</Table>
+				<div className='Cart'>
+					<IconButton onClick={() => vaciarCarrito()}>Vaciar carrito</IconButton>
+					<IconButton as={Link} to='/realizarpedido'>
+						Terminar pedido
+					</IconButton>
+				</div>
 			</div>
 		</>
 	);

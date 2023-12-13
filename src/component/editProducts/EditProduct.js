@@ -33,47 +33,46 @@ const EditProduct = ({ producto, recargar, setRecargar }) => {
 	};
 
 	const guardarCambios = () => {
-		const docRef = doc(db, 'ListadoProductos', producto.Id);
+		const docRef = doc(db, 'ListadoProductos', producto.ID);
 		updateDoc(docRef, {
 			stock: Number(stock),
 			costo: Number(costo),
 			porcentaje: Number(porcentaje),
 		}).then(() => {
-			console.log('Se actualizaron los datos correctamente');
 			handleClose();
 			setRecargar(!recargar);
 		});
 	};
 
 	return (
-		<div>
-			<div>
-				<div>{producto.nombre}</div>
+		<tr>
+			<td>{producto.nombre}</td>
+			<td>
 				<TriggerButton type='button' onClick={handleOpen}>
 					Editar producto
 				</TriggerButton>
-				<Modal aria-labelledby='unstyled-modal-title' aria-describedby='unstyled-modal-description' open={open} onClose={handleClose} slots={{ backdrop: StyledBackdrop }}>
-					<ModalContent sx={{ width: 400 }}>
-						<form>
-							<FormControl>
-								<label>Nuevo STOCK</label>
-								<Input onChange={cambioStock} type='number' value={stock} />
-							</FormControl>
-							<FormControl>
-								<label>Nuevo COSTO</label>
-								<Input onChange={cambioCosto} type='number' value={costo} />
-							</FormControl>
-							<FormControl>
-								<label>PORCENTAJE DE VENTA</label>
-								<Input onChange={cambioPorcentaje} type='number' value={porcentaje} />
-							</FormControl>
-							<Button onClick={handleClose}>Salir</Button>
-							<Button onClick={guardarCambios}>Guardar</Button>
-						</form>
-					</ModalContent>
-				</Modal>
-			</div>
-		</div>
+			</td>
+			<Modal aria-labelledby='unstyled-modal-title' aria-describedby='unstyled-modal-description' open={open} onClose={handleClose} slots={{ backdrop: StyledBackdrop }}>
+				<ModalContent sx={{ width: 400 }}>
+					<form>
+						<FormControl>
+							<label>Nuevo STOCK</label>
+							<Input onChange={cambioStock} type='number' value={stock} />
+						</FormControl>
+						<FormControl>
+							<label>Nuevo COSTO</label>
+							<Input onChange={cambioCosto} type='number' value={costo} />
+						</FormControl>
+						<FormControl>
+							<label>PORCENTAJE DE VENTA</label>
+							<Input onChange={cambioPorcentaje} type='number' value={porcentaje} />
+						</FormControl>
+						<Button onClick={handleClose}>Salir</Button>
+						<Button onClick={guardarCambios}>Guardar</Button>
+					</form>
+				</ModalContent>
+			</Modal>
+		</tr>
 	);
 };
 

@@ -4,21 +4,3 @@
     display: grid;
     place-items: center;
 }
-
-.TablaCarrito{
-    border: 2px solid $primary-color;
-    @media only screen and (max-width: 600px) {
-        width: 80%;
-    }
-    .columna{
-        text-align: start;
-        border-bottom: 2px solid $tertiary-color;
-    }
-    .columnaN{
-        text-align: end;
-        border-bottom: 2px solid $tertiary-color;
-    }
-    .columnaNT{
-        text-align: end;
-    }
-}
