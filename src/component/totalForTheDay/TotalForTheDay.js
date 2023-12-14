@@ -5,6 +5,7 @@ const TotalForTheDay = ({ productos }) => {
 		<>
 			{productos.map((item) => (
 				<tr key={item.ID}>
+					{console.log(item.ID)}
 					<td>{item.nombre}</td>
 					<td>{item.cantidad}</td>
 					<td>{item.precioTotal} </td>

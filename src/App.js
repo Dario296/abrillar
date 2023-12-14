@@ -5,6 +5,7 @@ import PersistentDrawerLeft from './component/navBar/ResponsiveDrawer.js';
 import NavBarAdmi from './component/navBarAdmi/NavBarAdmi.js';
 import HeroSec from './component/hero/HeroSec.js';
 import ProductsListContainer from './component/products/ProductsListContainer.js';
+import ProductsListContainerOffers from './component/products/ProductsListContainerOffers.js';
 import Particle from './component/particles/particles.jsx';
 import Cart from './component/cart/cart.js';
 import { useContextAdmin } from './component/context/AdminContex.js';
@@ -46,6 +47,7 @@ function App() {
 							)}
 
 							<Route path='/productos/:categoria' element={<ProductsListContainer />} />
+							<Route path='/productos/ofertas' element={<ProductsListContainerOffers />} />
 							<Route path='/admin' element={<Login />}></Route>
 							<Route path='*' element={<Navigate to='/' />} />
 						</Routes>

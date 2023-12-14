@@ -105,6 +105,13 @@ export default function PersistentDrawerLeft() {
 					</IconButton>
 				</DrawerHeader>
 				<List>
+					<ListItem disablePadding>
+						<ListItemButton as={Link} to='/productos/ofertas' onClick={handleDrawerClose}>
+							<ListItemText>Ofertas</ListItemText>
+						</ListItemButton>
+					</ListItem>
+				</List>
+				<List>
 					<ListItem>
 						<ListItemText>Productos de limpieza</ListItemText>
 					</ListItem>

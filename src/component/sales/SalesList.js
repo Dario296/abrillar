@@ -11,6 +11,7 @@ const SalesList = () => {
 	const [venta, setVenta] = useState([]);
 	const [pruductList, setProductList] = useState([]);
 	const [recargar, setRecargar] = useState(true);
+	console.log(venta);
 
 	useEffect(() => {
 		const ProductosRef = collection(db, 'ListadoProductos');
@@ -77,8 +78,6 @@ const SalesList = () => {
 				noHayStock.push({
 					nombre: doc.data().nombre,
 				});
-
-				// noHayStock.push(itemInCart);
 			}
 		});
 
