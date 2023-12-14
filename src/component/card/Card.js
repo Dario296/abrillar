@@ -37,11 +37,11 @@ export default function RecipeReviewCard({ producto }) {
 	};
 
 	return (
-		<Card className='Card' sx={{ maxWidth: 345, minWidth: 280 }}>
+		<Card className='Card'>
 			<CardHeader title={producto.nombre} action={precio} />
 			<CardMedia component='img' height='194' image={producto.img} alt='Imagen del producto' />
 			<CardContent>
-				{producto.stock > 0 ? <Typography className='Descripcion'>Stock: {producto.stock}</Typography> : null}
+				{/* {producto.stock > 0 ? <Typography className='Descripcion'>Stock: {producto.stock}</Typography> : null} */}
 				<Typography className='Descripcion'>{producto.descripcion1}</Typography>
 				{producto.descripcion2 ? <Typography className='Descripcion'>({producto.descripcion2})</Typography> : null}
 			</CardContent>

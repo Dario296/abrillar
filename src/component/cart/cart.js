@@ -10,6 +10,19 @@ import DeleteIcon from '@mui/icons-material/Delete';
 const Cart = () => {
 	const { carrito, cantidad, sumarCantidad, restarCantidad, eliminarProducto, total, vaciarCarrito } = useContexto();
 
+	carrito.sort((a, b) => {
+		let fa = a.nombre.toLowerCase(),
+			fb = b.nombre.toLowerCase();
+	
+		if (fa < fb) {
+			return -1;
+		}
+		if (fa > fb) {
+			return 1;
+		}
+		return 0;
+	})
+
 	return (
 		<>
 			<div>

@@ -17,6 +17,18 @@ const SalesList = () => {
 		const Respuesta = query(ProductosRef);
 		getDocs(Respuesta).then((resp) => {
 			const ProductosDB = resp.docs.map((doc) => ({ ID: doc.id, ...doc.data() }));
+			ProductosDB.sort((a, b) => {
+				let fa = a.nombre.toLowerCase(),
+					fb = b.nombre.toLowerCase();
+			
+				if (fa < fb) {
+					return -1;
+				}
+				if (fa > fb) {
+					return 1;
+				}
+				return 0;
+			})
 			setProductList(ProductosDB);
 		});
 	}, [recargar]);
