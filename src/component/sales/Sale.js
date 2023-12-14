@@ -50,7 +50,7 @@ const Sale = ({ producto, handleAgregar, recargar }) => {
 	const handleChangePrecio = (e) => {
 		const value = e.target.value;
 		const resultado = (value * 1) / precioU;
-		setCantidad(resultado);
+		setCantidad(resultado.toFixed(2));
 		setPrecioT(value);
 	};
 
@@ -98,7 +98,7 @@ const Sale = ({ producto, handleAgregar, recargar }) => {
 			) : (
 				<>
 					<td>{producto.nombre}</td>
-					<td>{producto.stock}</td>
+					<td>{producto.stock.toFixed(2)}</td>
 					<td>{precioU}</td>
 					<td>
 						<input className='inputVentas' onChange={handleChangeCantidad} type='number' name='cantidad' value={cantidad} />
