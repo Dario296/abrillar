@@ -11,7 +11,6 @@ const SalesList = () => {
 	const [venta, setVenta] = useState([]);
 	const [pruductList, setProductList] = useState([]);
 	const [recargar, setRecargar] = useState(true);
-	console.log(venta);
 
 	useEffect(() => {
 		const ProductosRef = collection(db, 'ListadoProductos');
@@ -69,7 +68,6 @@ const SalesList = () => {
 		const productos = await getDocs(q);
 		productos.docs.forEach((doc) => {
 			const itemInCart = venta.find((item) => item.ID === doc.id);
-			console.log(itemInCart.cantidad);
 			if (doc.data().stock >= itemInCart.cantidad) {
 				batch.update(doc.ref, {
 					stock: doc.data().stock - itemInCart.cantidad,

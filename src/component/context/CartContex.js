@@ -1,12 +1,20 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 const Context = createContext();
 
 export const Provider = ({ children }) => {
 	const [carrito, setCarrito] = useState([]);
 
+	useEffect(()=>{
+		let carritoLocalStorage = localStorage.getItem('carrito');
+		if (carritoLocalStorage) {
+			setCarrito(JSON.parse(carritoLocalStorage));
+		}
+	},[])
+
 	const agregarCarrito = (producto) => {
 		if (producto.cantidad >= 1) {
+			localStorage.setItem('carrito', JSON.stringify([...carrito, producto]))
 			setCarrito([...carrito, producto]);
 		}
 	};
@@ -24,6 +32,7 @@ export const Provider = ({ children }) => {
 
 		if (carrito[index].stock > carrito[index].cantidad) {
 			carrito[index].cantidad += 1;
+			localStorage.setItem('carrito', JSON.stringify([...carrito]))
 			setCarrito([...carrito]);
 		}
 	};
@@ -32,6 +41,7 @@ export const Provider = ({ children }) => {
 		let index = carrito.findIndex((item) => item.ID === ID);
 		if (carrito[index].cantidad > 1) {
 			carrito[index].cantidad -= 1;
+			localStorage.setItem('carrito', JSON.stringify([...carrito]))
 			setCarrito([...carrito]);
 		} else {
 			eliminarProducto(ID);
@@ -39,7 +49,9 @@ export const Provider = ({ children }) => {
 	};
 
 	const eliminarProducto = (ID) => {
-		setCarrito(carrito.filter((item) => item.ID !== ID));
+		let filtrado = carrito.filter((item) => item.ID !== ID);
+		localStorage.setItem("carrito", JSON.stringify(filtrado));
+		setCarrito(filtrado);
 	};
 
 	const total = () => {
@@ -47,6 +59,7 @@ export const Provider = ({ children }) => {
 	};
 
 	const vaciarCarrito = () => {
+		localStorage.removeItem("carrito");
 		setCarrito([]);
 	};
 
