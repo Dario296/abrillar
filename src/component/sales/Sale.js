@@ -98,8 +98,8 @@ const Sale = ({ producto, handleAgregar, recargar }) => {
 			) : (
 				<>
 					<td>{producto.nombre}</td>
-					<td>{precioU}</td>
 					<td>{producto.stock}</td>
+					<td>{precioU}</td>
 					<td>
 						<input className='inputVentas' onChange={handleChangeCantidad} type='number' name='cantidad' value={cantidad} />
 					</td>
