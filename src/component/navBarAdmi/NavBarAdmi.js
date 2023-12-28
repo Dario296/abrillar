@@ -113,6 +113,13 @@ export default function NavBarAdmi() {
 				</List>
 				<List>
 					<ListItem disablePadding>
+						<ListItemButton as={Link} to='/totalmes' onClick={handleDrawerClose}>
+							<ListItemText>Total del mes</ListItemText>
+						</ListItemButton>
+					</ListItem>
+				</List>
+				<List>
+					<ListItem disablePadding>
 						<ListItemButton as={Link} to='/editarproductos' onClick={handleDrawerClose}>
 							<ListItemText>Editar productos</ListItemText>
 						</ListItemButton>

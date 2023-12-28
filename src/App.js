@@ -16,6 +16,7 @@ import WhatsappButton from './component/whatsapp/WhatsappButton.js';
 import OrderForm from './component/orderForm/OrderForm.js';
 import TotalForTheDayList from './component/totalForTheDay/TotalForTheDayList.js'
 import EditProductsList from "./component/editProducts/EditProductsList.js";
+import TotalForTheMonth from "./component/totalForTheMonth/TotalForTheMonth.js";
 
 function App() {
 	const { admin } = useContextAdmin();
@@ -29,6 +30,7 @@ function App() {
 						<Routes>
 							<Route path='/' element={<SalesList />}></Route>
 							<Route path='/ventasdeldia' element={<TotalForTheDayList />}></Route>
+							<Route path='/totalmes' element={<TotalForTheMonth />}></Route>
 							<Route path='/editarproductos' element={<EditProductsList />}></Route>
 							<Route path='*' element={<Navigate to='/' />} />
 						</Routes>
