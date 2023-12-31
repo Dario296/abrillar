@@ -17,6 +17,17 @@ const TotalForTheMonth = () => {
 			let fechasCompletas = `${i}/${mesActual}/${anio}`;
 			diasDelMes.push(fechasCompletas);
 		}
+
+		if (diasDelMes.length > 30) {
+			let diaUno = diasDelMes.shift();
+			const ProductosRef = collection(db, 'Ventas');
+			const q = query(ProductosRef, where('fecha', '==', diaUno), where('fecha', 'in', diasDelMes));
+			getDocs(q).then((resp) => {
+				const ventasDelMes = resp.docs.map((doc) => ({ ID: doc.id, ...doc.data() }));
+				setVentas(ventasDelMes);
+			});
+		}
+
 		const ProductosRef = collection(db, 'Ventas');
 		const q = query(ProductosRef, where('fecha', 'in', diasDelMes));
 		getDocs(q).then((resp) => {
@@ -32,9 +43,7 @@ const TotalForTheMonth = () => {
 	return (
 		<>
 			<div>
-				<h1 className='text-center'>
-					Total de Ventas del Mes: ${total()}
-				</h1>
+				<h1 className='text-center'>Total de Ventas del Mes: ${total()}</h1>
 			</div>
 		</>
 	);
