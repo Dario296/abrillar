@@ -27,7 +27,8 @@ const TotalForTheDayList = () => {
 	};
 
 	const buscarFecha = (value) => {
-		let fechaFormateada = dayjs(value).format('DD/MM/YYYY');
+		let fechaFormateada = dayjs(value).format('D/M/YYYY');
+		console.log(fechaFormateada);
 		setFecha(fechaFormateada);
 	}
 
