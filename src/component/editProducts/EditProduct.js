@@ -43,6 +43,15 @@ const EditProduct = ({ producto, recargar, setRecargar }) => {
 			setRecargar(!recargar);
 		});
 	};
+	const guardarCambiosOferta = () => {
+		const docRef = doc(db, 'ListadoProductos', producto.ID);
+		updateDoc(docRef, {
+			porcentaje: Number(porcentaje),
+		}).then(() => {
+			handleClose();
+			setRecargar(!recargar);
+		});
+	};
 
 	return (
 		<tr>
@@ -55,6 +64,17 @@ const EditProduct = ({ producto, recargar, setRecargar }) => {
 			<Modal aria-labelledby='unstyled-modal-title' aria-describedby='unstyled-modal-description' open={open} onClose={handleClose} slots={{ backdrop: StyledBackdrop }}>
 				<ModalContent sx={{ width: 400 }}>
 					<form>
+						{producto.categoria === 'ofertas' ? 
+						<>
+							<FormControl>
+								<label>PORCENTAJE DE VENTA</label>
+								<Input onChange={cambioPorcentaje} type='number' value={porcentaje} />
+							</FormControl>
+							<Button onClick={handleClose}>Salir</Button>
+							<Button onClick={guardarCambiosOferta}>Guardar</Button>
+						</>
+						: 
+						<>
 						<FormControl>
 							<label>Nuevo STOCK</label>
 							<Input onChange={cambioStock} type='number' value={stock} />
@@ -69,6 +89,7 @@ const EditProduct = ({ producto, recargar, setRecargar }) => {
 						</FormControl>
 						<Button onClick={handleClose}>Salir</Button>
 						<Button onClick={guardarCambios}>Guardar</Button>
+						</> }
 					</form>
 				</ModalContent>
 			</Modal>
