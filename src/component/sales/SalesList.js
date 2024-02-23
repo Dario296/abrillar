@@ -34,7 +34,7 @@ const SalesList = () => {
 	}, [recargar]);
 
 	const handleAgregar = (producto, ID) => {
-		if (venta.some((item) => item.ID === ID) === false) {
+		if (venta.some((item) =>  item.ID || item.IDRef === ID) === false) {
 			setVenta([...venta, producto]);
 		}
 	};
@@ -59,7 +59,7 @@ const SalesList = () => {
 			where(
 				documentId(),
 				'in',
-				venta.map((item) => item.ID)
+				venta.map((item) => item.IDRef? item.IDRef : item.ID)
 			)
 		);
 
@@ -67,7 +67,7 @@ const SalesList = () => {
 
 		const productos = await getDocs(q);
 		productos.docs.forEach((doc) => {
-			const itemInCart = venta.find((item) => item.ID === doc.id);
+			const itemInCart = venta.find((item) => item.IDRef? item.IDRef : item.ID === doc.id);
 			if (doc.data().stock >= itemInCart.cantidad) {
 				batch.update(doc.ref, {
 					stock: doc.data().stock - itemInCart.cantidad,

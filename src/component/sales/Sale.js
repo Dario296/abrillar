@@ -58,7 +58,8 @@ const Sale = ({ producto, handleAgregar, recargar }) => {
 
 	if (producto.referencia) {
 		productoV = {
-			ID: producto.referencia,
+			ID: producto.ID,
+			IDRef: producto.referencia,
 			nombre: producto.nombre,
 			cantidad: cantidad * producto.unidades,
 			precioTotal: precioT,
