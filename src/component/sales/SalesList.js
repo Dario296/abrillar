@@ -95,11 +95,16 @@ const SalesList = () => {
 	return (
 		<>
 			<div>
-				<span>Total venta:{total()}</span>
+				<div>
+					<span>Total venta:{total()}</span>
+				</div>
 				{venta.length === 0 ? null : (
+				<div>
+					<span>Cant. Produc.{venta.length}</span>
 					<Button className='confirmarVenta' onClick={confirmarVenta}>
 						Confirmar venta
 					</Button>
+				</div>
 				)}
 			</div>
 
