@@ -34,7 +34,7 @@ const SalesList = () => {
 	}, [recargar]);
 
 	const handleAgregar = (producto, ID) => {
-		if (venta.some((item) =>  item.ID || item.IDRef === ID) === false) {
+		if (venta.some((item) =>  item.ID === ID ) === false) {
 			setVenta([...venta, producto]);
 		}
 	};
