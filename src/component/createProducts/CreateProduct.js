@@ -8,12 +8,12 @@ const db = getFirestore(app);
 const CreateProduct = () => {
 	const [categoria, setCategoria] = useState('');
 	const [costo, setCosto] = useState();
-	const [descripcion1, setDescripcion1] = useState();
-	const [descripcion2, setDescripcion2] = useState();
-	const [nombre, setNombre] = useState();
+	const [descripcion1, setDescripcion1] = useState('');
+	const [descripcion2, setDescripcion2] = useState('');
+	const [nombre, setNombre] = useState('');
 	const [porcentaje, setPorcentaje] = useState();
 	const [stock, setStock] = useState();
-	const [referencia, setReferencia] = useState();
+	const [referencia, setReferencia] = useState('');
 	const [unidades, setUnidades] = useState();
 
 	const cambioCategoria = (e) => {
@@ -76,14 +76,7 @@ const CreateProduct = () => {
 		};
 
 		addDoc(ProductosRef, newProduct).then((doc) => {
-			setCategoria();
-			setCosto();
-			setDescripcion1();
-			setDescripcion2();
-			setNombre();
-			setPorcentaje();
-			setStock();
-			alert('Producto creado exitosamente ' + doc.id);
+			alert(doc.id);
 		});
 	};
 	const enviarOfertas = (e) => {
@@ -100,13 +93,7 @@ const CreateProduct = () => {
 		};
 
 		addDoc(ProductosRef, newProduct).then((doc) => {
-			setCategoria();
-			setDescripcion1();
-			setNombre();
-			setPorcentaje();
-			setReferencia();
-			setUnidades();
-			alert('Producto creado exitosamente ' + doc.id);
+			alert(doc.id);
 		});
 	};
 
