@@ -11,6 +11,7 @@ const SalesList = () => {
 	const [venta, setVenta] = useState([]);
 	const [pruductList, setProductList] = useState([]);
 	const [recargar, setRecargar] = useState(true);
+	const [cargando, setCargando] = useState(false);
 
 	useEffect(() => {
 		const ProductosRef = collection(db, 'ListadoProductos');
@@ -20,7 +21,7 @@ const SalesList = () => {
 			ProductosDB.sort((a, b) => {
 				let fa = a.nombre.toLowerCase(),
 					fb = b.nombre.toLowerCase();
-			
+
 				if (fa < fb) {
 					return -1;
 				}
@@ -28,13 +29,13 @@ const SalesList = () => {
 					return 1;
 				}
 				return 0;
-			})
+			});
 			setProductList(ProductosDB);
 		});
 	}, [recargar]);
 
 	const handleAgregar = (producto, ID) => {
-		if (venta.some((item) =>  item.ID === ID ) === false) {
+		if (venta.some((item) => item.ID === ID) === false) {
 			setVenta([...venta, producto]);
 		}
 	};
@@ -50,6 +51,7 @@ const SalesList = () => {
 	};
 
 	const confirmarVenta = async () => {
+		setCargando('Espere por favor');
 		const batch = writeBatch(db);
 		const ProductosRef = collection(db, 'ListadoProductos');
 		const ventaRef = collection(db, 'Ventas');
@@ -59,7 +61,7 @@ const SalesList = () => {
 			where(
 				documentId(),
 				'in',
-				venta.map((item) => item.IDRef? item.IDRef : item.ID)
+				venta.map((item) => (item.IDRef ? item.IDRef : item.ID))
 			)
 		);
 
@@ -67,7 +69,7 @@ const SalesList = () => {
 
 		const productos = await getDocs(q);
 		productos.docs.forEach((doc) => {
-			const itemInCart = venta.find((item) => item.IDRef? item.IDRef : item.ID === doc.id);
+			const itemInCart = venta.find((item) => (item.IDRef ? item.IDRef : item.ID === doc.id));
 			if (doc.data().stock >= itemInCart.cantidad) {
 				batch.update(doc.ref, {
 					stock: doc.data().stock - itemInCart.cantidad,
@@ -84,46 +86,56 @@ const SalesList = () => {
 				addDoc(ventaRef, compra).then(() => {
 					setVenta([]);
 					setRecargar(!recargar);
+					setCargando(false);
 				});
 			});
 		} else {
 			setVenta([]);
+			setCargando(false);
 			alert('No hay stock suficiente para los siguientes productos: ' + noHayStock.map((i) => i.nombre));
 		}
 	};
 
 	return (
 		<>
-			<div>
-				<div>
-					<span>Total venta:{total()}</span>
-				</div>
-				{venta.length === 0 ? null : (
-				<div>
-					<span>Cant. Produc.{venta.length}</span>
-					<Button className='confirmarVenta' onClick={confirmarVenta}>
-						Confirmar venta
-					</Button>
-				</div>
-				)}
-			</div>
+			{cargando === false ? (
+				<>
+					<div>
+						<div>
+							<span>Total venta:{total()}</span>
+						</div>
+						{venta.length === 0 ? null : (
+							<div>
+								<span>Cant. Produc.{venta.length}</span>
+								<Button className='confirmarVenta' onClick={confirmarVenta}>
+									Confirmar venta
+								</Button>
+							</div>
+						)}
+					</div>
 
-			<Table striped bordered hover size='sm' responsive>
-				<thead>
-					<tr>
-						<th>Nombre</th>
-						<th>Stock</th>
-						<th>$ C/U</th>
-						<th>Cant.</th>
-						<th>Total</th>
-					</tr>
-				</thead>
-				<tbody>
-					{pruductList.map((producto) => (
-						<Sale key={producto.ID} producto={producto} handleAgregar={handleAgregar} venta={venta} recargar={recargar} />
-					))}
-				</tbody>
-			</Table>
+					<Table striped bordered hover size='sm' responsive>
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Stock</th>
+								<th>$ C/U</th>
+								<th>Cant.</th>
+								<th>Total</th>
+							</tr>
+						</thead>
+						<tbody>
+							{pruductList.map((producto) => (
+								<Sale key={producto.ID} producto={producto} handleAgregar={handleAgregar} venta={venta} recargar={recargar} />
+							))}
+						</tbody>
+					</Table>
+				</>
+			) : (
+				<div>
+					<h1>{cargando}</h1>
+				</div>
+			)}
 		</>
 	);
 };

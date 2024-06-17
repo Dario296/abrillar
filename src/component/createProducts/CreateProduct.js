@@ -15,6 +15,7 @@ const CreateProduct = () => {
 	const [stock, setStock] = useState();
 	const [referencia, setReferencia] = useState('');
 	const [unidades, setUnidades] = useState();
+	const [cargando, setCargando] = useState(false);
 
 	const cambioCategoria = (e) => {
 		const value = e.target.value;
@@ -63,6 +64,7 @@ const CreateProduct = () => {
 
 	const enviar = (e) => {
 		e.preventDefault();
+		setCargando('Espere por favor');
 		const ProductosRef = collection(db, 'ListadoProductos');
 		const newProduct = {
 			categoria: categoria,
@@ -76,11 +78,12 @@ const CreateProduct = () => {
 		};
 
 		addDoc(ProductosRef, newProduct).then((doc) => {
-			alert(doc.id);
+			setCargando(doc.id);
 		});
 	};
 	const enviarOfertas = (e) => {
 		e.preventDefault();
+		setCargando('Espere por favor');
 		const ProductosRef = collection(db, 'ListadoProductos');
 
 		const newProduct = {
@@ -93,58 +96,73 @@ const CreateProduct = () => {
 		};
 
 		addDoc(ProductosRef, newProduct).then((doc) => {
-			alert(doc.id);
+			setCargando(doc.id);
 		});
 	};
 
 	return (
 		<div>
-			<form>
-				<FormControl>
-					<label id='select-label'>CATEGORIA</label>
-					<Select labelId='select-label' id='select' label='Pisos' value={categoria} onChange={cambioCategoria}>
-						<MenuItem value={'autos'}>Autos</MenuItem>
-						<MenuItem value={'baños'}>Baños</MenuItem>
-						<MenuItem value={'bolsas'}>Bolsas</MenuItem>
-						<MenuItem value={'cocina'}>Cocina</MenuItem>
-						<MenuItem value={'insecticidas'}>Insecticidas</MenuItem>
-						<MenuItem value={'otros'}>Otros</MenuItem>
-						<MenuItem value={'pisos'}>Pisos</MenuItem>
-						<MenuItem value={'ropa'}>Ropa</MenuItem>
-						<MenuItem value={'gato'}>Gato</MenuItem>
-						<MenuItem value={'perro'}>Perro</MenuItem>
-					</Select>
-					<label>COSTO</label>
-					<Input type='number' onChange={cambioCosto} />
-					<label>DESCRIPCION1</label>
-					<Input type='text' onChange={cambioDescripcion1} />
-					<label>DESCRIPCION2</label>
-					<Input type='text' onChange={cambioDescripcion2} />
-					<label>NOMBRE</label>
-					<Input type='text' onChange={cambioNombre} />
-					<label>PORCENTAJE</label>
-					<Input type='number' onChange={cambioPorcentaje} />
-					<label>STOCK</label>
-					<Input type='number' onChange={cambioStock} />
-					<Button onClick={enviar}>Guardar</Button>
-				</FormControl>
-			</form>
-			<form>
-				<FormControl>
-					<h1>Ofertas</h1>
-					<label>DESCRIPCION1</label>
-					<Input type='text' onChange={cambioDescripcion1} />
-					<label>NOMBRE</label>
-					<Input type='text' onChange={cambioNombre} />
-					<label>PORCENTAJE</label>
-					<Input type='number' onChange={cambioPorcentaje} />
-					<label>REFERENCIA</label>
-					<Input type='text' onChange={cambioRefencia} />
-					<label>UNIDADES</label>
-					<Input type='text' onChange={cambioUnidades} />
-					<Button onClick={enviarOfertas}>Guardar</Button>
-				</FormControl>
-			</form>
+			{cargando === false ? (
+				<>
+					<form>
+						<FormControl>
+							<label id='select-label'>CATEGORIA</label>
+							<Select labelId='select-label' id='select' label='Pisos' value={categoria} onChange={cambioCategoria}>
+								<MenuItem value={'autos'}>Autos</MenuItem>
+								<MenuItem value={'baños'}>Baños</MenuItem>
+								<MenuItem value={'bolsas'}>Bolsas</MenuItem>
+								<MenuItem value={'cocina'}>Cocina</MenuItem>
+								<MenuItem value={'insecticidas'}>Insecticidas</MenuItem>
+								<MenuItem value={'otros'}>Otros</MenuItem>
+								<MenuItem value={'pisos'}>Pisos</MenuItem>
+								<MenuItem value={'ropa'}>Ropa</MenuItem>
+								<MenuItem value={'gato'}>Gato</MenuItem>
+								<MenuItem value={'perro'}>Perro</MenuItem>
+							</Select>
+							<label>COSTO</label>
+							<Input type='number' onChange={cambioCosto} />
+							<label>DESCRIPCION1</label>
+							<Input type='text' onChange={cambioDescripcion1} />
+							<label>DESCRIPCION2</label>
+							<Input type='text' onChange={cambioDescripcion2} />
+							<label>NOMBRE</label>
+							<Input type='text' onChange={cambioNombre} />
+							<label>PORCENTAJE</label>
+							<Input type='number' onChange={cambioPorcentaje} />
+							<label>STOCK</label>
+							<Input type='number' onChange={cambioStock} />
+							<Button onClick={enviar}>Guardar</Button>
+						</FormControl>
+					</form>
+					<form>
+						<FormControl>
+							<h1>Ofertas</h1>
+							<label>DESCRIPCION1</label>
+							<Input type='text' onChange={cambioDescripcion1} />
+							<label>NOMBRE</label>
+							<Input type='text' onChange={cambioNombre} />
+							<label>PORCENTAJE</label>
+							<Input type='number' onChange={cambioPorcentaje} />
+							<label>REFERENCIA</label>
+							<Input type='text' onChange={cambioRefencia} />
+							<label>UNIDADES</label>
+							<Input type='text' onChange={cambioUnidades} />
+							<Button onClick={enviarOfertas}>Guardar</Button>
+						</FormControl>
+					</form>
+				</>
+			) : (
+				<div>
+					<h1>{cargando}</h1>
+					<button
+						onClick={() => {
+							setCargando(false);
+						}}
+					>
+						Volver
+					</button>
+				</div>
+			)}
 		</div>
 	);
 };
