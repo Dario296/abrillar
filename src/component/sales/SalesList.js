@@ -46,6 +46,7 @@ const SalesList = () => {
 
 	const compra = {
 		fecha: new Date().toLocaleDateString(),
+		hora: new Date().toLocaleTimeString(),
 		items: venta,
 		total: total(),
 	};

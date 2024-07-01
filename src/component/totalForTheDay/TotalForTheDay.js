@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TotalForTheDay = ({ productos }) => {
+const TotalForTheDay = ({ productos, hora }) => {
 	return (
 		<>
 			{productos.map((item) => (
@@ -8,6 +8,7 @@ const TotalForTheDay = ({ productos }) => {
 					<td>{item.nombre}</td>
 					<td>{item.cantidad}</td>
 					<td>{item.precioTotal} </td>
+					<td>{hora? hora:""} </td>
 				</tr>
 			))}
 		</>
