@@ -106,8 +106,22 @@ export default function NavBarAdmi() {
 				</List>
 				<List>
 					<ListItem disablePadding>
+						<ListItemButton as={Link} to='/fiados' onClick={handleDrawerClose}>
+							<ListItemText>Fiados</ListItemText>
+						</ListItemButton>
+					</ListItem>
+				</List>
+				<List>
+					<ListItem disablePadding>
 						<ListItemButton as={Link} to='/ventasdeldia' onClick={handleDrawerClose}>
 							<ListItemText>Ventas Del Dia</ListItemText>
+						</ListItemButton>
+					</ListItem>
+				</List>
+				<List>
+					<ListItem disablePadding>
+						<ListItemButton as={Link} to='/listadefiados' onClick={handleDrawerClose}>
+							<ListItemText>Lista de Fiados</ListItemText>
 						</ListItemButton>
 					</ListItem>
 				</List>

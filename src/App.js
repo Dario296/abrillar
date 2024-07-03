@@ -18,6 +18,8 @@ import TotalForTheDayList from './component/totalForTheDay/TotalForTheDayList.js
 import EditProductsList from "./component/editProducts/EditProductsList.js";
 import TotalForTheMonth from "./component/totalForTheMonth/TotalForTheMonth.js";
 import CreateProduct from "./component/createProducts/CreateProduct.js";
+import OnCreditList from "./component/onCredit/OnCreditList.js";
+import OnCreditTotalForTheDayList from "./component/onCreditTotalForTheDay/OnCreditTotalForTheDayList.js";
 
 function App() {
 	const { admin } = useContextAdmin();
@@ -30,7 +32,9 @@ function App() {
 						<NavBarAdmi />
 						<Routes>
 							<Route path='/' element={<SalesList />}></Route>
+							<Route path='/fiados' element={<OnCreditList />}></Route>
 							<Route path='/ventasdeldia' element={<TotalForTheDayList />}></Route>
+							<Route path='/listadefiados' element={<OnCreditTotalForTheDayList />}></Route>
 							<Route path='/totalmes' element={<TotalForTheMonth />}></Route>
 							<Route path='/editarproductos' element={<EditProductsList />}></Route>
 							<Route path='/crearproducto' element={<CreateProduct />}></Route>
