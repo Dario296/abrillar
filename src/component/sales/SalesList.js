@@ -99,6 +99,7 @@ const SalesList = () => {
 
 	return (
 		<>
+		<h1>Ventas</h1>
 			{cargando === false ? (
 				<>
 					<div>
